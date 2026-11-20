@@ -3,17 +3,20 @@
 import type { MemoryStore } from '../lib/store'
 import { json, uidDariCookie } from '../lib/http'
 import { sahkan } from '../lib/hmac'
+import { cariProduk } from '../data/produk'
 
 export type Env = { WEBHOOK_SECRET: string }
 
-// Harga masih dari klien; diperbaiki di Bab 4.
+// Bab 4: harga ditentukan server dari katalog, bukan dari klien.
 export async function buatPesanan(req: Request, store: MemoryStore) {
   const uid = uidDariCookie(req)
   if (!uid) return json({ error: 'belum masuk' }, 401)
-  const { produkId, harga } = await req.json()
+  const { produkId } = await req.json()
+  const produk = cariProduk(String(produkId))
+  if (!produk) return json({ error: 'produk tidak ditemukan' }, 404)
   const id = crypto.randomUUID()
-  store.buat({ id, uid, produkId, harga, status: 'menunggu' })
-  return json({ id, harga })
+  store.buat({ id, uid, produkId: produk.id, harga: produk.harga, status: 'menunggu' })
+  return json({ id, harga: produk.harga })
 }
 
 // Halaman tujuan hanya MENAMPILKAN status. Ia tidak memberi akses apa pun.
