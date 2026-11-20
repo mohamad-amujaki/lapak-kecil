@@ -1,0 +1,12 @@
+---
+import { PRODUK } from '../data/produk'
+---
+<html lang="id">
+  <head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>Lapak Kecil</title></head>
+  <body>
+    <h1>Lapak Kecil</h1>
+    <ul>
+      {PRODUK.map(p => <li>{p.nama}: Rp{p.harga.toLocaleString('id-ID')}</li>)}
+    </ul>
+  </body>
+</html>

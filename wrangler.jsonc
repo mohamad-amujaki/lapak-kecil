@@ -1,0 +1,10 @@
+{
+  "name": "lapak-kecil",
+  "compatibility_date": "2026-06-01",
+  "d1_databases": [
+    { "binding": "DB", "database_name": "lapak-kecil", "database_id": "GANTI-DENGAN-ID-D1-ANDA", "migrations_dir": "migrations" }
+  ],
+  "r2_buckets": [
+    { "binding": "FILES", "bucket_name": "lapak-kecil-files" }
+  ]
+}
