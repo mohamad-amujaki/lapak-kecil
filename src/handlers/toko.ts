@@ -5,6 +5,7 @@ import { validasiPesanan, KUNCI_RE } from '../lib/validasi'
 import { json, uidDariCookie } from '../lib/http'
 import { sahkan } from '../lib/hmac'
 import { cariProduk } from '../data/produk'
+import { hargaAkhir } from '../lib/diskon'
 
 export type Env = { WEBHOOK_SECRET: string }
 
@@ -25,9 +26,15 @@ export async function buatPesanan(req: Request, store: Store) {
     const lama = await store.cariKunci(uid, kunci)
     if (lama) return json({ id: lama.id, harga: lama.harga, diulang: true })
   }
+  let harga: number
+  try {
+    harga = hargaAkhir(produk.harga, typeof v.kode === 'string' ? v.kode : undefined)
+  } catch (e) {
+    return json({ error: (e as Error).message }, 400)
+  }
   const id = crypto.randomUUID()
-  await store.buat({ id, uid, produkId: produk.id, harga: produk.harga, status: 'menunggu', kunci })
-  return json({ id, harga: produk.harga })
+  await store.buat({ id, uid, produkId: produk.id, harga, status: 'menunggu', kunci })
+  return json({ id, harga })
 }
 
 // Halaman tujuan hanya MENAMPILKAN status. Ia tidak memberi akses apa pun.
