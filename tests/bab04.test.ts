@@ -9,7 +9,7 @@ describe('Bab 4: server yang menentukan harga', () => {
     const res = await buatPesanan(post('/api/pesanan', { produkId: 'template-1', harga: 1 }), store)
     const data = await res.json()
     expect(data.harga).toBe(49000)
-    expect(store.ambil(data.id)?.harga).toBe(49000)
+    expect((await store.ambil(data.id))?.harga).toBe(49000)
   })
   it('produk yang tidak ada ditolak', async () => {
     const res = await buatPesanan(post('/api/pesanan', { produkId: 'tidak-ada' }), new MemoryStore())

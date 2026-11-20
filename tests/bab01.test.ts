@@ -18,7 +18,7 @@ describe('Bab 1: perbaikan celah akses gratis', () => {
     const { id } = await (await buatPesanan(post('/api/pesanan', { produkId: 'template-1', harga: 49000 }), store)).json()
     const palsu = await webhookReq({ pesananId: id, status: 'settlement' }, 'kunci-salah')
     expect((await webhook(palsu, store, env)).status).toBe(401)
-    expect(store.ambil(id)?.status).toBe('menunggu')
+    expect((await store.ambil(id))?.status).toBe('menunggu')
   })
 
   it('jalur normal: pembeli sah tetap mendapat akses setelah webhook sah', async () => {
