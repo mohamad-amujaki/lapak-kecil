@@ -14,10 +14,13 @@ export interface Store {
   cariKunci(uid: string, kunci: string): Promise<Pesanan | undefined>
   tandaiLunas(id: string): Promise<void>
   produkLunas(uid: string): Promise<string[]>
+  /** true bila event baru, false bila sudah pernah diproses (idempotensi). */
+  catatNotifikasi(eventId: string): Promise<boolean>
 }
 
 export class MemoryStore implements Store {
   pesanan = new Map<string, Pesanan>()
+  notifikasi = new Set<string>()
   akses = new Set<string>() // dipakai versi awal (handlers/awal.ts) saja
 
   async buat(p: Pesanan) { this.pesanan.set(p.id, p); return p }
@@ -31,6 +34,11 @@ export class MemoryStore implements Store {
   }
   async produkLunas(uid: string) {
     return [...this.pesanan.values()].filter(p => p.uid === uid && p.status === 'lunas').map(p => p.produkId)
+  }
+  async catatNotifikasi(eventId: string) {
+    if (this.notifikasi.has(eventId)) return false
+    this.notifikasi.add(eventId)
+    return true
   }
   beriAkses(uid: string, produkId: string) { this.akses.add(`${uid}:${produkId}`) }
   daftarAkses(uid: string) {

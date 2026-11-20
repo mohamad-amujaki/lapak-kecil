@@ -48,4 +48,9 @@ export class D1Store implements Store {
       .all<{ produk_id: string }>()
     return results.map(r => r.produk_id)
   }
+  async catatNotifikasi(eventId: string) {
+    const r: any = await this.db.prepare('INSERT OR IGNORE INTO notifikasi (event_id) VALUES (?)').bind(eventId).run()
+    const berubah = r?.meta?.changes ?? r?.changes ?? 0 // D1 asli: meta.changes
+    return Number(berubah) > 0
+  }
 }

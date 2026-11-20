@@ -15,3 +15,8 @@ export async function webhookReq(body: object, secret = SECRET) {
     headers: { 'x-signature': await tandatangani(secret, isi) },
   })
 }
+
+let n = 0
+export const lunasBody = (pesananId: string, jumlah: number, eventId = `evt-${++n}`) => ({
+  eventId, pesananId, status: 'settlement', jumlah,
+})
