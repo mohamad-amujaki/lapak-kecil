@@ -1,0 +1,12 @@
+---
+// Empat keadaan yang jujur: memuat, kosong, galat, berhasil.
+const { jenis, pesan } = Astro.props as { jenis: 'memuat' | 'kosong' | 'galat' | 'berhasil'; pesan?: string }
+const teks = {
+  memuat: 'Memuat…',
+  kosong: 'Belum ada produk. Coba lagi nanti.',
+  galat: 'Terjadi masalah. Coba lagi, atau hubungi kami jika berulang.',
+  berhasil: 'Berhasil.',
+}[jenis]
+const warna = { memuat: 'teks', kosong: 'teks', galat: 'galat', berhasil: 'berhasil' }[jenis]
+---
+<p role={jenis === 'galat' ? 'alert' : 'status'} style={`color: var(--warna-${warna})`}>{pesan ?? teks}</p>

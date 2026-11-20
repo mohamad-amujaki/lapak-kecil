@@ -1,0 +1,28 @@
+---
+import Dasar from '../../layouts/Dasar.astro'
+---
+<Dasar judul="Checkout | Lapak Kecil">
+  <h1>Checkout</h1>
+  <label for="produk">Produk</label>
+  <select id="produk"><option value="template-1">Template Undangan Digital</option></select>
+  <label for="kode">Kode diskon (opsional)</label>
+  <input id="kode" autocomplete="off" />
+  <button class="tombol" id="bayar" type="button">Bayar</button>
+  <p id="status" role="status"></p>
+  <script>
+    const status = document.getElementById('status')!
+    document.getElementById('bayar')!.addEventListener('click', async () => {
+      status.textContent = 'Memuat…'
+      const kode = (document.getElementById('kode') as HTMLInputElement).value || undefined
+      const produkId = (document.getElementById('produk') as HTMLSelectElement).value
+      const r = await fetch('/api/pesanan', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'idempotency-key': crypto.randomUUID() },
+        body: JSON.stringify({ produkId, kode }),
+      })
+      const d = await r.json()
+      status.setAttribute('role', r.ok ? 'status' : 'alert')
+      status.textContent = r.ok ? `Pesanan dibuat. Total Rp${d.harga.toLocaleString('id-ID')}.` : `Gagal: ${d.error}`
+    })
+  </script>
+</Dasar>

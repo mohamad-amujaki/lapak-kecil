@@ -1,0 +1,18 @@
+---
+import '../styles/tokens.css'
+const { judul } = Astro.props
+---
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{judul}</title>
+    <style>
+      body { margin: 0; font: var(--huruf-dasar)/1.5 system-ui, sans-serif; color: var(--warna-teks); background: var(--warna-latar); }
+      main { max-width: 40rem; margin: 0 auto; padding: var(--jarak-2); }
+      h1 { font-size: var(--huruf-judul); }
+      .tombol { display: inline-flex; align-items: center; justify-content: center; min-height: var(--sentuh-min); min-width: var(--sentuh-min); padding: 0 var(--jarak-2); background: var(--warna-utama); color: var(--warna-utama-teks); border: 0; border-radius: 0.5rem; font: inherit; }
+    </style>
+  </head>
+  <body><main><slot /></main></body>
+</html>

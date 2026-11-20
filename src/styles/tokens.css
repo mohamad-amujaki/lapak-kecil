@@ -1,0 +1,16 @@
+/* Token desain Lapak Kecil (Bab 10): hanya nilai di sini yang boleh dipakai. */
+:root {
+  --warna-teks: #1f2937;
+  --warna-latar: #ffffff;
+  --warna-utama: #1d4ed8;
+  --warna-utama-teks: #ffffff;
+  --warna-aksen: #b45309;
+  --warna-galat: #b91c1c;
+  --warna-berhasil: #166534;
+  --huruf-dasar: 1rem;
+  --huruf-judul: 1.5rem;
+  --jarak-1: 0.5rem;
+  --jarak-2: 1rem;
+  --jarak-3: 1.5rem;
+  --sentuh-min: 44px;
+}
